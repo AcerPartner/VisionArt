@@ -16,14 +16,14 @@ VisionArt be a custom node in the workflow.
 ## VisionArt Download Link
 - [VisionArt LNL](https://drive.google.com/file/d/1k3tDEinRkTk2C4syjMIiTqtttPc3pGIF/view?usp=drive_link)
 - [VisionArt ARL](https://drive.google.com/file/d/1K96yo2LDLq8lr2EFKWOWEHyjGWyRbd5y/view?usp=drive_link )
-
 </br>
 
 ## VisionArt Environment Setup
 1. Install VisionArt 
 2. Open file location
-3. Replace **"AICO Out Paintint.exe"**
-4. Reboot computer
+3. Download - [VisionArt AI Playground](https://drive.google.com/file/d/1LWoKHZME2E0bKOpMQUt7U3N1Y-8FpW_P/view?usp=sharing)
+4. Replace **"AICO Out Paintint.exe"**
+5. Reboot computer
 </br>
 
 ## VisionArt Location
