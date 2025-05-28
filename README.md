@@ -41,7 +41,7 @@ VisionArt be a custom node in the workflow.
 - Steps: 4
 - Input prompts and Generate.
 
-PS: Inference time: 40~50 secs (Model: Flux.1-Schnell Med Quality) </br>
+PS: Inference time: 40 ~ 50 secs (Model: Flux.1-Schnell Med Quality) </br>
 PS: Inference device: GPU </br>
 PS: Memory Usage: 8~9 GBs </br>
 
