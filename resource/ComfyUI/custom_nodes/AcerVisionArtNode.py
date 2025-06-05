@@ -103,6 +103,8 @@ class AcerVisionArtNode:
         return {
             "required": {
                 "image": ("IMAGE",{"tooltip": "Outpaint 4K image."}),
+                "animation_mode":("INT",{"default": 1, "min": 1, "max": 2, "tooltip": "animation present mode"}), # 1: ANIMATION_WALLPAPER, 2: ANIMATION_FULLSCREEN
+                "performance_mode":("INT",{"default": 0, "min": 0, "max": 1, "tooltip": "keep VisionArt resource"}), # 0: release resource, 1: keep resource
                 #"filename_prefix": ("STRING", {"default": "VisionArt", "tooltip": "The prefix for the file to save. This may include formatting information such as %date:yyyy-MM-dd% or %Empty Latent Image.width% to include values from nodes."}),                
             },
             "hidden": {
@@ -118,9 +120,9 @@ class AcerVisionArtNode:
     CATEGORY = "api/image"
     DESCRIPTION = "Outpaints the input images to desktop wallpaper."
 
-    def VisionArt(self, image, filename_prefix="VisionArt", prompt=None, extra_pnginfo=None):
+    def VisionArt(self, image, filename_prefix="VisionArt", prompt=None, extra_pnginfo=None, animation_mode=1, performance_mode=0):
         logging.info("VisionArt Node!!!!!!!!!")
-        # for computex 2025 demo
+        
         # receive image
         for (batch_number, _image) in enumerate(image):
             i = 255. * _image.cpu().numpy()
@@ -131,18 +133,6 @@ class AcerVisionArtNode:
             # save IntelAIPlayground.jpg
             resizeImage.save('C://ProgramData//Acer//AICO//data//IntelAIPlayground.jpg')        
 
-        """
-        # call visionart
-        # load the user32.dll
-        user32 = ctypes.WinDLL('user32', use_last_error=True)
-        # Define required constants
-        WM_AIPLAYGROUND_VISIONART_START = (0x0400 + 8)
-        # Find the window handle (HWND) by window title
-        hwnd = user32.FindWindowW(None, "AICOOutPaintingAPP")  # Example: Notepad
-        if hwnd:
-            #Send windows event start outpainting
-            user32.PostMessageW(hwnd, WM_AIPLAYGROUND_VISIONART_START, 0, 0)
-        """
         # AICO 2.0 protocol
         logging.info("Acer VisionArt socket connect begin.")
         HOST = '127.0.0.1'
@@ -227,14 +217,14 @@ class AcerVisionArtNode:
                 "outpaint_image_position": 0,
                 "outpaint_execute": 0,
                 "outpaint_format": 0, 
-                "outpaint_animation": 1,
+                "outpaint_animation": animation_mode,                  #0: set wallpaper, 1: animation wallpaper, 2: full screen wallpaper
                 "outpaint_animation_speed": 20,
                 "outpaint_inference_step": 20, 
                 "seed": 0,
                 "outpaint_inference_seed": 0,
-                "outpaint_performance": 1,
-                "outpaint_input_image": 1,
-                "outpaint_prompts": "one small cute French Bulldog, smiling camera zoom out entire face of puppy,looking at camera, face at center image, photo realistic, undistorted, 8k, undistorted, cuddly, lively, outdoor "
+                "outpaint_performance": performance_mode,              #0: release VisionArt resource, 1: keep VersionArt resource
+                "outpaint_input_image": 1,                             #0: VisionArt generate image, 1: VisionArt receive image
+                "outpaint_prompts": ""                                 #outpaint_input_image= 0: using prompts generate image, outpaint_input_image= 1: Unused.
             }
         }
         aico_executed_registry = json.dumps(aico_executed)
@@ -259,7 +249,6 @@ class AcerVisionArtNode:
             logging.info("send AICO_EXECUTED fail.")
         
         return (image,)
-        #return { "ui": { "images": True } }
 
 # A dictionary that contains all nodes you want to export with their names
 # NOTE: names should be globally unique
