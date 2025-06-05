@@ -1,18 +1,51 @@
+<a id="readme-top"></a>
 # VisionArt-AI Playground
 AI PC starter app for doing AI 4K image createion on laptop. </br>
 User can use AI Playground create image and use Acer VisionArt do outpaint and set to wallpaper.
 
-# Outline
-- VisionArt Workflow
-- AI Playground Introduction
-- VisionArt Interduction
-- ComfyUI Introduction
-- How to Execute VisionArt-AI Playground
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Outline</summary>
+  <ol>
+    <li>
+      <a href="#visionart-workflow">VisionArt Workflow</a>
+    </li>
+    <li>
+      <a href="#ai-playground">AI Playground</a>
+      <ul>
+        <li><a href="#download-the-installer">Downdload the installer</a></li>
+        <li><a href="#project-development">Project Development</a></li>
+        <li><a href="#ai-playground-image-resolution">AI Playground Image Resolution</a></li>
+        <li><a href="#ai-playground-video-resolution">AI Playground Video Resolution</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#visionart">VisionArt</a>
+      <ul>
+        <li><a href="#visionart-download-link">VisionArt Download Link</a></li>
+        <li><a href="#visionart-environment-setup">VisionArt Environment Setup</a></li>
+        <li><a href="#visionart-location">VisionArt Location</a></li>
+        <li><a href="#visionart-version-check">VisionArt Version Check</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#comfyui">ComfyUI</a>
+      <ul>
+        <li><a href="#server">Server</a></li>
+        <li><a href="#environment">Environment</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#how-to-execute-visionart-ai-playground">How to Execute VisionArt-AI Playground</a>
+    </li>
+  </ol>
+</details>
 
 
 # VisionArt Workflow 
 ![Custom Node-VisionArt](./image/VisionArt_Workflow.png)
 VisionArt be a custom node in the workflow.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 # AI Playground 
 AI PC starter app for doing AI image creation, video creaion.
@@ -51,6 +84,7 @@ Setting::
 | 0.5 | 1088x448 | 896x512 | 896x576 | 832x640 | 704x704 | 640x832 | 576x832 | 512x960 | 448x1088 |
 
 </br>
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 # VisionArt 
 AI PC starter app for doing AI 4K image creation. VisionArt support Gen AI models includeing: 
@@ -99,6 +133,8 @@ AI PC starter app for doing AI 4K image creation. VisionArt support Gen AI model
 | AICO2OutPaint | VisionArt out paint |
 </br>
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 # ComfyUI
 ## Server
 - IP: localhost:49000 </br>
@@ -111,6 +147,8 @@ AI PC starter app for doing AI 4K image creation. VisionArt support Gen AI model
 | AcerVisionArtNode.py | ..\resource\ComfyUI\custom_nodes\ | ..\AI Playground\resources\ComfyUI\custom_nodes\ | Add custom nodes | 
 | AcerVisionArt_fluxQ4.json | ..\resource\workflow\ | ..\AI Playground\resources\workflows\ | Intel AI Playground workflow |
 | AcerVisionArt_ComfyUI_fluxQ4.json | ..\resource\workflow\ | ..\AI Playground\resources\workflows\ | ComfyUI workflow |
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 # How to Execute VisionArt-AI Playground
 1. Open Setting->Image
@@ -125,3 +163,5 @@ AI PC starter app for doing AI 4K image creation. VisionArt support Gen AI model
 > - Inference time: 40 ~ 50 secs (Model: Flux.1-Schnell Med Quality) </br>
 > - Inference device: GPU </br>
 > - Memory Usage: 8~9 GBs </br> 
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
