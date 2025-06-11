@@ -83,6 +83,9 @@ Setting::
 | 0.35 | 896x384 | 768x448 | 768x512 | 704x512 | 576x576 | 512x704 | 512x768 | 448x832 | 384x960 |
 | 0.5 | 1088x448 | 896x512 | 896x576 | 832x640 | 704x704 | 640x832 | 576x832 | 512x960 | 448x1088 |
 
+- Total Frames:
+- Frame Rate: 
+
 </br>
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -105,7 +108,7 @@ AI PC starter app for doing AI 4K image creation. VisionArt support Gen AI model
 ## VisionArt Environment Setup
 1. prepare Acer laptop
 2. Install VisionArt 
-3. Open file location
+3. Open VisionArt file location
 4. Download - [VisionArt AI Playground](https://drive.google.com/file/d/1LWoKHZME2E0bKOpMQUt7U3N1Y-8FpW_P/view?usp=sharing)
 5. Replace **"AICO Out Paintint.exe"**
 6. Reboot computer
@@ -131,16 +134,15 @@ AI PC starter app for doing AI 4K image creation. VisionArt support Gen AI model
 | AICO2SVC | VisionArt background service |
 | AICO2AC2S | VisionArt communication center |
 | AICO2OutPaint | VisionArt out paint |
-</br>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 # ComfyUI
 ## Server
-- IP: localhost:49000 </br>
+IP: localhost:49000 </br>
 
 ## Environment
-- Intel AI Playground 2.5B Replace File </br>
+Intel AI Playground 2.5B Replace File </br>
 
 | File | Source | Destination | Description | 
 | ---- | ----------- | ---------------- | ----------- |
@@ -165,3 +167,5 @@ AI PC starter app for doing AI 4K image creation. VisionArt support Gen AI model
 > - Memory Usage: 8~9 GBs </br> 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+ 
