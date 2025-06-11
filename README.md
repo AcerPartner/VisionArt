@@ -26,6 +26,8 @@ User can use AI Playground create image and use Acer VisionArt do outpaint and s
         <li><a href="#visionart-environment-setup">VisionArt Environment Setup</a></li>
         <li><a href="#visionart-location">VisionArt Location</a></li>
         <li><a href="#visionart-version-check">VisionArt Version Check</a></li>
+        <li><a href="#input-parameters">Input Parameters</a></li>
+        <li><a href="#output-parameters">Output Parameters</a></li>
       </ul>
     </li>
     <li>
@@ -134,6 +136,14 @@ AI PC starter app for doing AI 4K image creation. VisionArt support Gen AI model
 | AICO2SVC | VisionArt background service |
 | AICO2AC2S | VisionArt communication center |
 | AICO2OutPaint | VisionArt out paint |
+
+## Input Parameters
+| Name | Value | Description | 
+| ------------ | ---- | ---- |
+| outpaint_animation | 0 </br> 1 </br> 2 | set wallpaper </br> animation wallpaper </br> animation full screen |
+| performance_mode | 0 </br> 1| release resource </br> keep resource |
+
+## Output Parameters
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
