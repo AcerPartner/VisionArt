@@ -21,91 +21,37 @@ from datetime import datetime
 import ctypes
 from ctypes import wintypes
 
+import folder_paths
 
+command_event = threading.Event()
+file_event = threading.Event()
 
-class AcerVisionArtNode:
-    """
-    A example node
+commandSocketFlag = {'run': True}
+fileSocketFlag = {'run': True}
 
-    Class methods
-    -------------
-    INPUT_TYPES (dict):
-        Tell the main program input parameters of nodes.
-    IS_CHANGED:
-        optional method to control when the node is re executed.
+local_command_ip = 1234
+local_command_port = 1234
+local_file_ip = 1234 
+local_file_port = 1234
 
-    Attributes
-    ----------
-    RETURN_TYPES (`tuple`):
-        The type of each element in the output tuple.
-    RETURN_NAMES (`tuple`):
-        Optional: The name of each output in the output tuple.
-    FUNCTION (`str`):
-        The name of the entry-point method. For example, if `FUNCTION = "execute"` then it will run Example().execute()
-    OUTPUT_NODE ([`bool`]):
-        If this node is an output node that outputs a result/image from the graph. The SaveImage node is an example.
-        The backend iterates on these output nodes and tries to execute all their parents if their parent graph is properly connected.
-        Assumed to be False if not present.
-    CATEGORY (`str`):
-        The category the node should appear in the UI.
-    DEPRECATED (`bool`):
-        Indicates whether the node is deprecated. Deprecated nodes are hidden by default in the UI, but remain
-        functional in existing workflows that use them.
-    EXPERIMENTAL (`bool`):
-        Indicates whether the node is experimental. Experimental nodes are marked as such in the UI and may be subject to
-        significant changes or removal in future versions. Use with caution in production workflows.
-    execute(s) -> tuple || None:
-        The entry point method. The name of this method must be the same as the value of property `FUNCTION`.
-        For example, if `FUNCTION = "execute"` then this method's name must be `execute`, if `FUNCTION = "foo"` then it must be `foo`.
-    """
+img_resizeImage = None
 
-    def Command_receive(self, sock, signal):
-        logging.info("Command receive listen")
-        while signal:
-            try:
-                data = sock.recv(1024)
-                #logging.info("Command Received: ", data.decode('utf-8'))
-                # parsing message
-                #self.VisionArt_inference_event.set()
-            except:
-                signal = False
-                break
-    
-    def File_receive(self, sock, signal):
-        logging.info("File receive listen")
-        while signal:
-            try:
-                data = sock.recv(1024)
-                logging.info("File Received: ", data.decode('utf-8'))
-            except:
-                signal = False
-                break
+byte_resizeImageBuffer = bytearray()
+byte_VisionArtImageBuffer = bytearray()
 
+class AcerSaveImage:
     def __init__(self):
-        pass
-
+        self.output_dir = folder_paths.get_output_directory()
+        self.type = "output"
+        self.prefix_append = ""
+        self.compress_level = 4
+    
     @classmethod
     def INPUT_TYPES(s):
-        """
-            Return a dictionary which contains config for all input fields.
-            Some types (string): "MODEL", "VAE", "CLIP", "CONDITIONING", "LATENT", "IMAGE", "INT", "STRING", "FLOAT".
-            Input types "INT", "STRING" or "FLOAT" are special values for fields on the node.
-            The type can be a list for selection.
-
-            Returns: `dict`:
-                - Key input_fields_group (`string`): Can be either required, hidden or optional. A node class must have property `required`
-                - Value input_fields (`dict`): Contains input fields config:
-                    * Key field_name (`string`): Name of a entry-point method's argument
-                    * Value field_config (`tuple`):
-                        + First value is a string indicate the type of field or a list for selection.
-                        + Second value is a config for type "INT", "STRING" or "FLOAT".
-        """
         return {
             "required": {
-                "image": ("IMAGE",{"tooltip": "Outpaint 4K image."}),
-                "animation_mode":("INT",{"default": 1, "min": 1, "max": 2, "tooltip": "animation present mode"}), # 1: ANIMATION_WALLPAPER, 2: ANIMATION_FULLSCREEN
-                "performance_mode":("INT",{"default": 0, "min": 0, "max": 1, "tooltip": "keep VisionArt resource"}), # 0: release resource, 1: keep resource
-                #"filename_prefix": ("STRING", {"default": "VisionArt", "tooltip": "The prefix for the file to save. This may include formatting information such as %date:yyyy-MM-dd% or %Empty Latent Image.width% to include values from nodes."}),                
+                "images": ("IMAGE", {"tooltip": "The images to save."}),
+                "filename_prefix": ("STRING", {"default": "AcerVisionArt", "tooltip": "The prefix for the file to save. This may include formatting information such as %date:yyyy-MM-dd% or %Empty Latent Image.width% to include values from nodes."})
             },
             "hidden": {
                 "prompt": "PROMPT", "extra_pnginfo": "EXTRA_PNGINFO"
@@ -113,56 +59,113 @@ class AcerVisionArtNode:
         }
 
     RETURN_TYPES = ()
+    FUNCTION = "save_images"
+
     OUTPUT_NODE = True
 
-    FUNCTION = "VisionArt"
-
     CATEGORY = "api/image"
-    DESCRIPTION = "Outpaints the input images to desktop wallpaper."
+    DESCRIPTION = "Saves the input images to your Acer VisionArt output directory."
 
-    def VisionArt(self, image, filename_prefix="VisionArt", prompt=None, extra_pnginfo=None, animation_mode=1, performance_mode=0):
-        logging.info("VisionArt Node!!!!!!!!!")
+    def save_images(self, images, filename_prefix="AcerVisionArt", prompt=None, extra_pnginfo=None):
+        full_output_folder, filename, counter, subfolder, filename_prefix = folder_paths.get_save_image_path(filename_prefix, self.output_dir)
+        logging.info("full_output_folder: "+ full_output_folder)
+        logging.info("filename: "+ filename)
+        logging.info("subfolder: "+ subfolder)
+        logging.info("filename_prefix: "+ filename_prefix)
+        file = f"{filename_prefix}_{counter:05}_.png"
+        images.save(os.path.join(full_output_folder, file))
+        results = list()
+
+        results.append({
+            "filename": file,
+            "subfolder": subfolder,
+            "type": self.type
+        })
+        counter += 1
         
-        # receive image
-        for (batch_number, _image) in enumerate(image):
-            i = 255. * _image.cpu().numpy()
-            img = Image.fromarray(np.clip(i, 0, 255).astype(np.uint8))
-            
-            # resize image
-            resizeImage = img.resize((960,512))
-            # save IntelAIPlayground.jpg
-            resizeImage.save('C://ProgramData//Acer//AICO//data//IntelAIPlayground.jpg')        
+        return { "ui": { "images": results } }
 
-        # AICO 2.0 protocol
-        logging.info("Acer VisionArt socket connect begin.")
+class AcerVisionArtNode:
+    
+    def Command_receive(self, sock, flag):
+        logging.info("Command receive listen")
+        while commandSocketFlag['run']:
+            try:
+                receiveData = sock.recv(4096)
+                receiveDataSize = len(receiveData)
+                subReceiveData = receiveData[8:receiveDataSize]
+                json_str = subReceiveData.decode('utf-8')
+                responseMessage = json.loads(json_str)
+                logging.info("Command Received: " + receiveData.decode('utf-8'))
+                # parsing message
+                #self.VisionArt_inference_event.set()
+            except:
+                command_event.set()
+                commandSocketFlag['run'] = False 
+                break
+    
+    def File_receive(self, sock, flag):
+        logging.info("File receive listen")
+        while fileSocketFlag['run']:
+            try:
+                receiveData = sock.recv(4096)
+                # message length
+                receiveDataSize = len(receiveData)
+                # json message length
+                byte_jsonLength = receiveData[8:15]
+                jsonLength = int.from_bytes(byte_jsonLength, byteorder='little')
+                # get json message
+                byte_json = receiveData[15:jsonLength + 15]
+                str_json = byte_json.decode('utf-8')
+                logging.info("JSON: " + str_json)
+                # get image length 
+                byte_imageLength = receiveData[jsonLength + 16:jsonLength + 19]
+                imageLength = int.from_bytes(byte_imageLength, byteorder='little')
+
+                if imageLength > 10:
+                    # get image
+                    byte_image = receiveData[jsonLength + 24:receiveDataSize]
+                    tempImageLength = imageLength - len(byte_image)
+                    while tempImageLength > 0:
+                        more = sock.recv(4096)
+                        byte_image += more
+                        tempImageLength -= len(more)
+                    
+                    with open('VisionArt_image.png', 'wb') as f:
+                        f.write(byte_image)
+                    
+                    global byte_VisionArtImageBuffer 
+                    byte_VisionArtImageBuffer = byte_image
+                    command_event.set()
+                    file_event.set()
+                    fileSocketFlag['run'] = False
+
+            except Exception as e:
+                logging.info("VisionArt Error type: " + type(e).__name__)
+                logging.info("VisionArt Error message: " + str(e))
+                file_event.set()
+                fileSocketFlag['run'] = False
+                break
+    
+    def Command_builder(self):
         HOST = '127.0.0.1'
         commandPort = 46936
         filePort = 46937
         commandSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        fileSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    
         try: 
             commandSocket.connect((HOST, commandPort))
-            logging.info("command socket connect success.")
-            fileSocket.connect((HOST, filePort))
-            logging.info("file socket connect success.")            
+            logging.info("command socket connect success.")        
         except ConnectionRefusedError:
             logging.info("command Acer VisionArt Connect fail.")
 
-
-        logging.info("Command receive thread start.")
         # start receive and listen
-        receiveThread = threading.Thread(target = self.Command_receive, args = (commandSocket, True))
-        receiveThread.start()
-        logging.info("File receive thread start.")
-        # start receive and listen
-        receiveThread = threading.Thread(target = self.File_receive, args = (fileSocket, True))
+        receiveThread = threading.Thread(target = self.Command_receive, args = (commandSocket, commandSocketFlag))
         receiveThread.start()
 
         local_command_ip, local_command_port = commandSocket.getsockname()
         logging.info("client command IP: {}, Port: {}".format(local_command_ip, local_command_port))
-        local_file_ip, local_file_port = fileSocket.getsockname()
-        logging.info("client file IP: {}, Port: {}".format(local_file_ip, local_file_port))
-
+    
         # command socket format
         magicWord = "ACER"
         cmdID = 0
@@ -185,12 +188,60 @@ class AcerVisionArtNode:
         except:
             logging.info("command socket AICO_REGISTRY fail.")
 
+        logging.info("command socket wait event")
+        command_event.wait()
+        logging.info("command socket registry finish")
+        commandSocketFlag['run'] = False
+
+        aico_rversion = { 
+            "Function": "AICO_VERSION",
+            "Feature": 0,
+            "TimeStamp": datetime.now().timestamp()
+        }
+        message = magicWord.encode('utf-8') + byte_cmdID + json.dumps(aico_rversion).encode('utf-8')
+        try:
+            commandSocket.sendall(message)
+            logging.info("command socket AICO_VERSION success.")
+        except:
+            logging.info("command socket AICO_VERSION fail.")
+
+    def File_builder(self):
+        HOST = '127.0.0.1'
+        commandPort = 46936
+        filePort = 46937
+        fileSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    
+        try: 
+            fileSocket.connect((HOST, filePort))
+            logging.info("file socket connect success.")            
+        except ConnectionRefusedError:
+            logging.info("file Acer VisionArt Connect fail.")
+    
+        local_file_ip, local_file_port = fileSocket.getsockname()
+        logging.info("client command IP: {}, Port: {}".format(local_file_ip, local_file_port))
+
+        # start receive and listen
+        receiveThread = threading.Thread(target = self.File_receive, args = (fileSocket, fileSocketFlag))
+        receiveThread.start()
+
         # file socket format
+        magicWord = "ACER"
+        cmdID = 0
+        byte_cmdID = cmdID.to_bytes(4, 'little')
+        aico_registry = { 
+            "Function": "AICO_REGISTRY",
+            "Feature": 0,
+            "TimeStamp": datetime.now().timestamp(), 
+            "Parameter":{ 
+                "command_port": local_command_port,
+                "file_port": local_file_port,
+                "request_feature": 1, 
+                "support_feature": 999 
+            }
+        }
         str_aico_registry = json.dumps(aico_registry)
         cmdSize = len(str_aico_registry.encode('utf-8'))
-        logging.info("file socket command size: "+ str(cmdSize) )   #167/ a7
         byte_cmdSize = cmdSize.to_bytes(8, 'little')
-        print("byte cmdSize: ", byte_cmdSize)
 
         imageSize = 0
         byte_imageSize = imageSize.to_bytes(8, 'little')
@@ -202,11 +253,10 @@ class AcerVisionArtNode:
             logging.info("file socket AICO_REGISTRY success.")
         except:
             logging.info("file socket AICO_REGISTRY fail.")
-        
-        time.sleep(5)
-        logging.info("AICO_EXECUTED begin.")
-        
-        magicWord = "ACER"
+
+        # EXECUTE 4K Image
+        animation_mode = 0
+        performance_mode = 0
         cmdID = 60
         byte_cmdID = cmdID.to_bytes(4, 'little')
         aico_executed = {
@@ -224,21 +274,22 @@ class AcerVisionArtNode:
                 "outpaint_inference_seed": 0,
                 "outpaint_performance": performance_mode,              #0: release VisionArt resource, 1: keep VersionArt resource
                 "outpaint_input_image": 1,                             #0: VisionArt generate image, 1: VisionArt receive image
-                "outpaint_prompts": ""                                 #outpaint_input_image= 0: using prompts generate image, outpaint_input_image= 1: Unused.
+                #"outpaint_prompts": "Front view of smiling Scottish Fold cat centered in the image, 8k, Realistic cat, Beach is in the background, big round pupils, big round eyes, big round eyeballs, undistorted, small size, photorealistic, cuddly, Vibrant colors, Rich details, Ultra-quality"                                 #outpaint_input_image= 0: using prompts generate image, outpaint_input_image= 1: Unused.
             }
         }
+
         aico_executed_registry = json.dumps(aico_executed)
         cmdSize = len(aico_executed_registry.encode('utf-8'))
         logging.info("file socket command size: "+ str(cmdSize) ) 
         byte_cmdSize = cmdSize.to_bytes(8, 'little')
-        print("byte cmdSize: ", byte_cmdSize)
-
         # image to byte buffer 
         byte_buffer = io.BytesIO()
-        resizeImage.save(byte_buffer, format="JPEG")
+        global img_resizeImage
+        img_resizeImage.save(byte_buffer, format="JPEG")
         bytes_image = byte_buffer.getvalue()
         imageSize = len(bytes_image)
         byte_imageSize = imageSize.to_bytes(8, 'little')
+        logging.info("image size: " + str(imageSize))
 
         message = magicWord.encode('utf-8') + byte_cmdID + byte_cmdSize + json.dumps(aico_executed).encode('utf-8')+ byte_imageSize + bytes_image
         
@@ -247,16 +298,83 @@ class AcerVisionArtNode:
             logging.info("send AICO_EXECUTED success.")
         except:
             logging.info("send AICO_EXECUTED fail.")
+    
+        logging.info("Wait VisionArt return 4K image")
+        file_event.wait()
+        # OUTPAINT_OUTPUT_IMAGE
+    
+        fileSocketFlag['run'] = False
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def INPUT_TYPES(s):
         
-        return (image,)
+        return {
+            "required": {
+                "image": ("IMAGE",{"tooltip": "Outpaint 4K image."}),
+                "animation_mode":("INT",{"default": 1, "min": 0, "max": 2, "tooltip": "animation present mode"}), # 0: WALLPAPER, 1: ANIMATION_WALLPAPER, 2: ANIMATION_FULLSCREEN
+                "performance_mode":("INT",{"default": 0, "min": 0, "max": 1, "tooltip": "keep VisionArt resource"}), # 0: release resource, 1: keep resource
+                #"filename_prefix": ("STRING", {"default": "VisionArt", "tooltip": "The prefix for the file to save. This may include formatting information such as %date:yyyy-MM-dd% or %Empty Latent Image.width% to include values from nodes."}),                
+            },
+            "hidden": {
+                "prompt": "PROMPT", "extra_pnginfo": "EXTRA_PNGINFO"
+            },
+        }
+
+    RETURN_TYPES = ("IMAGE",)
+    OUTPUT_TOOLTIPS = ("4K image.",)
+    OUTPUT_NODE = True
+
+    FUNCTION = "VisionArt"
+
+    CATEGORY = "api/image"
+    DESCRIPTION = "Outpaints the input images to desktop wallpaper."
+
+    def VisionArt(self, image, filename_prefix="VisionArt", prompt=None, extra_pnginfo=None, animation_mode=1, performance_mode=0):
+        logging.info("VisionArt Node!!!!!!!!!")
+        
+        # receive image
+        for (batch_number, _image) in enumerate(image):
+            i = 255. * _image.cpu().numpy()
+            img = Image.fromarray(np.clip(i, 0, 255).astype(np.uint8))
+            
+            # resize image
+            global img_resizeImage 
+            img_resizeImage = img.resize((960,512))
+
+        commandThread = threading.Thread(target = self.Command_builder,)
+        commandThread.start()
+        fileThread = threading.Thread(target = self.File_builder,)
+        fileThread.start()
+
+        commandThread.join()
+        fileThread.join()
+        logging.info("VisionArt Finish!!!!!!!!!")
+
+        global byte_VisionArtImageBuffer
+        image_stream = io.BytesIO(byte_VisionArtImageBuffer)
+        image4K = Image.open(image_stream)
+        # for debug save image
+        # image4K.save('C://ProgramData//Acer//AICO//data//IntelAIPlayground_4K.png')
+        # reset to default
+        command_event.clear()
+        file_event.clear()
+        commandSocketFlag['run'] = True
+        fileSocketFlag['run'] = True
+        return (image4K,)
+        
 
 # A dictionary that contains all nodes you want to export with their names
 # NOTE: names should be globally unique
 NODE_CLASS_MAPPINGS = {
-    "Acer": AcerVisionArtNode
+    "Acer": AcerVisionArtNode,
+    "AcerSaveImage": AcerSaveImage
 }
 
 # A dictionary that contains the friendly/humanly readable titles for the nodes
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "Acer": "VisionArt Node"
+    "Acer": "VisionArt Node",
+    "AcerSaveImage": "VisionArt SaveImage Node",
 }
