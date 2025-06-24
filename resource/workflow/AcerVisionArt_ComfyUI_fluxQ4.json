@@ -1,17 +1,4 @@
 {
-  "167": {
-    "inputs": {
-      "filename_prefix": "Test",
-      "images": [
-        "179",
-        0
-      ]
-    },
-    "class_type": "SaveImage",
-    "_meta": {
-      "title": "Save Image"
-    }
-  },
   "169": {
     "inputs": {
       "noise": [
@@ -144,7 +131,7 @@
   },
   "184": {
     "inputs": {
-      "noise_seed": 368879074339954
+      "noise_seed": 847414638968036
     },
     "class_type": "RandomNoise",
     "_meta": {
@@ -173,6 +160,8 @@
   },
   "192": {
     "inputs": {
+      "animation_mode": 1,
+      "performance_mode": 1,
       "image": [
         "179",
         0
@@ -181,6 +170,19 @@
     "class_type": "Acer",
     "_meta": {
       "title": "VisionArt Node"
+    }
+  },
+  "193": {
+    "inputs": {
+      "filename_prefix": "AcerVisionArt",
+      "images": [
+        "192",
+        0
+      ]
+    },
+    "class_type": "AcerSaveImage",
+    "_meta": {
+      "title": "VisionArt SaveImage Node"
     }
   }
 }
