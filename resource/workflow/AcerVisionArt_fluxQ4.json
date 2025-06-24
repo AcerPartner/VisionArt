@@ -1,5 +1,5 @@
 {
-  "name": "Acer Flux.1-Schnell Med Quality",
+  "name": "Acer Flux.1-Schnell Med Quality 0624",
   "displayPriority": 500,
   "tags": ["Q4", "Fast"],
   "backend": "comfyui",
@@ -40,20 +40,7 @@
   "displayedSettings": [],
   "modifiableSettings": ["inferenceSteps", "seed", "batchSize", "imagePreview", "resolution"],
   "comfyUiApiWorkflow": {
-    "167": {
-    "inputs": {
-      "filename_prefix": "Test",
-      "images": [
-        "179",
-        0
-      ]
-    },
-    "class_type": "SaveImage",
-    "_meta": {
-      "title": "Save Image"
-    }
-  },
-  "169": {
+    "169": {
     "inputs": {
       "noise": [
         "184",
@@ -185,7 +172,7 @@
   },
   "184": {
     "inputs": {
-      "noise_seed": 867227012001137
+      "noise_seed": 847414638968036
     },
     "class_type": "RandomNoise",
     "_meta": {
@@ -214,6 +201,8 @@
   },
   "192": {
     "inputs": {
+      "animation_mode": 1,
+      "performance_mode": 1,
       "image": [
         "179",
         0
@@ -222,6 +211,19 @@
     "class_type": "Acer",
     "_meta": {
       "title": "VisionArt Node"
+    }
+  },
+  "193": {
+    "inputs": {
+      "filename_prefix": "AcerVisionArt",
+      "images": [
+        "192",
+        0
+      ]
+    },
+    "class_type": "AcerSaveImage",
+    "_meta": {
+      "title": "VisionArt SaveImage Node"
     }
   }
   }
