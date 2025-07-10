@@ -4,7 +4,10 @@
   "tags": ["Q4", "Fast"],
   "backend": "comfyui",
   "comfyUIRequirements": {
-    "customNodes": ["city96/ComfyUI-GGUF@65a7c895bb0ac9547ba2f89d55fbdb609aa2bfe7"],
+    "customNodes": [
+      "city96/ComfyUI-GGUF@65a7c895bb0ac9547ba2f89d55fbdb609aa2bfe7",
+      "AcerPartner/VisionArt@AI-Playground"
+    ],
     "requiredModels": [
       {
         "type": "unet",
