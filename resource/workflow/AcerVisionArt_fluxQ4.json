@@ -34,11 +34,11 @@
     }
   ],
   "defaultSettings": {
-    "resolution": "896x896",
+    "resolution": "960x512",
     "inferenceSteps": 4
   },
   "displayedSettings": [],
-  "modifiableSettings": ["inferenceSteps", "seed", "batchSize", "imagePreview", "resolution"],
+  "modifiableSettings": ["seed"],
   "comfyUiApiWorkflow": {
     "169": {
     "inputs": {
