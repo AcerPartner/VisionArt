@@ -160,8 +160,8 @@
   },
   "192": {
     "inputs": {
-      "animation_mode": 1,
-      "performance_mode": 1,
+      "animation_mode": 2,
+      "performance_mode": 0,
       "image": [
         "179",
         0
