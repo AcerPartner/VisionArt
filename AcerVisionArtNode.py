@@ -205,7 +205,7 @@ class AcerVisionArtNode:
         except:
             logging.info("command socket AICO_VERSION fail.")
 
-    def File_builder(self):
+    def File_builder(self, animation_mode, performance_mode):
         HOST = '127.0.0.1'
         commandPort = 46936
         filePort = 46937
@@ -255,8 +255,6 @@ class AcerVisionArtNode:
             logging.info("file socket AICO_REGISTRY fail.")
 
         # EXECUTE 4K Image
-        animation_mode = 0
-        performance_mode = 0
         cmdID = 60
         byte_cmdID = cmdID.to_bytes(4, 'little')
         aico_executed = {
@@ -314,7 +312,7 @@ class AcerVisionArtNode:
         return {
             "required": {
                 "image": ("IMAGE",{"tooltip": "Outpaint 4K image."}),
-                "animation_mode":("INT",{"default": 1, "min": 0, "max": 2, "tooltip": "animation present mode"}), # 0: WALLPAPER, 1: ANIMATION_WALLPAPER, 2: ANIMATION_FULLSCREEN
+                "animation_mode":("INT",{"default": 2, "min": 0, "max": 2, "tooltip": "animation present mode"}), # 0: WALLPAPER, 1: ANIMATION_WALLPAPER, 2: ANIMATION_FULLSCREEN
                 "performance_mode":("INT",{"default": 0, "min": 0, "max": 1, "tooltip": "keep VisionArt resource"}), # 0: release resource, 1: keep resource
                 #"filename_prefix": ("STRING", {"default": "VisionArt", "tooltip": "The prefix for the file to save. This may include formatting information such as %date:yyyy-MM-dd% or %Empty Latent Image.width% to include values from nodes."}),                
             },
@@ -332,7 +330,7 @@ class AcerVisionArtNode:
     CATEGORY = "api/image"
     DESCRIPTION = "Outpaints the input images to desktop wallpaper."
 
-    def VisionArt(self, image, filename_prefix="VisionArt", prompt=None, extra_pnginfo=None, animation_mode=1, performance_mode=0):
+    def VisionArt(self, image, filename_prefix="VisionArt", prompt=None, extra_pnginfo=None, animation_mode=2, performance_mode=0):
         logging.info("VisionArt Node!!!!!!!!!")
         
         # receive image
@@ -346,7 +344,7 @@ class AcerVisionArtNode:
 
         commandThread = threading.Thread(target = self.Command_builder,)
         commandThread.start()
-        fileThread = threading.Thread(target = self.File_builder,)
+        fileThread = threading.Thread(target = self.File_builder, args=(animation_mode, performance_mode))
         fileThread.start()
 
         commandThread.join()
