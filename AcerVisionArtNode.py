@@ -26,6 +26,9 @@ import folder_paths
 command_event = threading.Event()
 file_event = threading.Event()
 
+receive_command_finish = False
+receive_file_finish = False
+
 commandSocketFlag = {'run': True}
 fileSocketFlag = {'run': True}
 
@@ -92,16 +95,20 @@ class AcerVisionArtNode:
         while commandSocketFlag['run']:
             try:
                 receiveData = sock.recv(4096)
-                receiveDataSize = len(receiveData)
-                subReceiveData = receiveData[8:receiveDataSize]
-                json_str = subReceiveData.decode('utf-8')
-                responseMessage = json.loads(json_str)
+                #receiveDataSize = len(receiveData)
+                #subReceiveData = receiveData[8:receiveDataSize]
+                #json_str = subReceiveData.decode('utf-8')
+                #responseMessage = json.loads(json_str)
                 logging.info("Command Received: " + receiveData.decode('utf-8'))
                 # parsing message
                 #self.VisionArt_inference_event.set()
-            except:
+                global receive_command_finish
+                receive_command_finish = True
+            except Exception as e:
                 command_event.set()
                 commandSocketFlag['run'] = False 
+                logging.info("Command Received: except:" , type(e).__name__)
+                logging.info("Command Received: except:", str(e))
                 break
     
     def File_receive(self, sock, flag):
@@ -139,6 +146,9 @@ class AcerVisionArtNode:
                     command_event.set()
                     file_event.set()
                     fileSocketFlag['run'] = False
+                
+                global receive_file_finish
+                receive_file_finish = True
 
             except Exception as e:
                 logging.info("VisionArt Error type: " + type(e).__name__)
@@ -152,6 +162,7 @@ class AcerVisionArtNode:
         commandPort = 46936
         filePort = 46937
         commandSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        global receive_command_finish        
     
         try: 
             commandSocket.connect((HOST, commandPort))
@@ -163,9 +174,17 @@ class AcerVisionArtNode:
         receiveThread = threading.Thread(target = self.Command_receive, args = (commandSocket, commandSocketFlag))
         receiveThread.start()
 
+        global local_command_ip
+        global local_command_port
         local_command_ip, local_command_port = commandSocket.getsockname()
         logging.info("client command IP: {}, Port: {}".format(local_command_ip, local_command_port))
     
+        # wait sockt connect finish 
+        global local_file_port
+        while local_file_port == 1234:
+            logging.info("wait file socket connect finish.")
+            time.sleep(0.1)
+
         # command socket format
         magicWord = "ACER"
         cmdID = 0
@@ -175,14 +194,15 @@ class AcerVisionArtNode:
             "Feature": 0,
             "TimeStamp": datetime.now().timestamp(), 
             "Parameter":{ 
-                "command_port": local_command_port,
-                "file_port": local_file_port,
+                "command_id": local_command_port,
+                "file_id": local_file_port,
                 "request_feature": 1, 
                 "support_feature": 999 
             }
         }
         message = magicWord.encode('utf-8') + byte_cmdID + json.dumps(aico_registry).encode('utf-8')
         try:
+            receive_command_finish = False
             commandSocket.sendall(message)
             logging.info("command socket AICO_REGISTRY success.")
         except:
@@ -190,7 +210,7 @@ class AcerVisionArtNode:
 
         logging.info("command socket wait event")
         command_event.wait()
-        logging.info("command socket registry finish")
+        logging.info("Receive 4K image. send version finish script.")
         commandSocketFlag['run'] = False
 
         aico_rversion = { 
@@ -210,6 +230,8 @@ class AcerVisionArtNode:
         commandPort = 46936
         filePort = 46937
         fileSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        global receive_command_finish
+        global receive_file_finish
     
         try: 
             fileSocket.connect((HOST, filePort))
@@ -217,12 +239,20 @@ class AcerVisionArtNode:
         except ConnectionRefusedError:
             logging.info("file Acer VisionArt Connect fail.")
     
+        global local_file_ip
+        global local_file_port
         local_file_ip, local_file_port = fileSocket.getsockname()
-        logging.info("client command IP: {}, Port: {}".format(local_file_ip, local_file_port))
+        logging.info("client file IP: {}, Port: {}".format(local_file_ip, local_file_port))
 
         # start receive and listen
         receiveThread = threading.Thread(target = self.File_receive, args = (fileSocket, fileSocketFlag))
         receiveThread.start()
+
+        # wait sockt connect finish 
+        global local_command_port
+        while local_command_port == 1234:
+            logging.info("wait command socket connect finish.")
+            time.sleep(0.1)
 
         # file socket format
         magicWord = "ACER"
@@ -233,8 +263,8 @@ class AcerVisionArtNode:
             "Feature": 0,
             "TimeStamp": datetime.now().timestamp(), 
             "Parameter":{ 
-                "command_port": local_command_port,
-                "file_port": local_file_port,
+                "command_id": local_command_port,
+                "file_id": local_file_port,
                 "request_feature": 1, 
                 "support_feature": 999 
             }
@@ -249,11 +279,15 @@ class AcerVisionArtNode:
         byte_temp_buffer = tempBuffer.to_bytes(1, 'little')
         message = magicWord.encode('utf-8') + byte_cmdID + byte_cmdSize + json.dumps(aico_registry).encode('utf-8') + byte_imageSize + byte_temp_buffer
         try:
+            receive_file_finish = False
             fileSocket.sendall(message)
             logging.info("file socket AICO_REGISTRY success.")
         except:
             logging.info("file socket AICO_REGISTRY fail.")
 
+        # wait for registry completed
+        while receive_command_finish != True or receive_file_finish != True:
+            time.sleep(0.5)
         # EXECUTE 4K Image
         cmdID = 60
         byte_cmdID = cmdID.to_bytes(4, 'little')
@@ -294,12 +328,11 @@ class AcerVisionArtNode:
         try:
             fileSocket.sendall(message)
             logging.info("send AICO_EXECUTED success.")
+            logging.info("Wait VisionArt return 4K image")
+            file_event.wait()
+            # OUTPAINT_OUTPUT_IMAGE
         except:
             logging.info("send AICO_EXECUTED fail.")
-    
-        logging.info("Wait VisionArt return 4K image")
-        file_event.wait()
-        # OUTPAINT_OUTPUT_IMAGE
     
         fileSocketFlag['run'] = False
 
