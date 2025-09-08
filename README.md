@@ -8,13 +8,11 @@ User can use AI Playground create image and use Acer VisionArt do outpaint and s
   <summary>Outline</summary>
   <ol>
     <li>
-      <a href="#visionart-workflow">VisionArt Workflow</a>
-    </li>
-    <li>
       <a href="#ai-playground">AI Playground</a>
       <ul>
         <li><a href="#download-the-installer">Downdload the installer</a></li>
         <li><a href="#version-v260b-feature">Version v2.6.0b Feature</a></li>
+        <li><a href="#aipg-visionart-workflow">AIPG-VisionArt Workflow </a></li>
         <li><a href="#ai-playground-image-resolution">AI Playground Image Resolution</a></li>
       </ul>
     </li>
@@ -35,13 +33,10 @@ User can use AI Playground create image and use Acer VisionArt do outpaint and s
 </details>
 
 
-# VisionArt Workflow 
-![Custom Node-VisionArt](./image/VisionArt_Workflow.png)
-VisionArt be a custom node in the workflow.
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 # AI Playground 
 AI PC starter app for doing AI image creation, video creaion.
+![Custom Node-VisionArt](./image/AIPG_VisionArt.png)
+</br><p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Download the installer 
 **AI Playground 2.6.0 Beta (all SKUs)** - [Release Notes](https://github.com/intel/AI-Playground/releases/tag/v2.6.0-beta) | [Download](https://github.com/intel/AI-Playground/releases/download/v2.6.0-beta/AI.Playground-2.6.0-beta.exe)
@@ -50,6 +45,11 @@ AI PC starter app for doing AI image creation, video creaion.
 ## Version v2.6.0b Feature 
 - Acer VisionArt workflow added for upscaling and placing generated images on your desktop (Acer AI PC required).
 </br><p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+# AIPG-VisionArt Workflow 
+![Custom Node-VisionArt](./image/VisionArt_Workflow.png)
+VisionArt be a custom node in the workflow.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## AI Playground Image Resolution 
 
@@ -69,10 +69,11 @@ Setting::
 
 # VisionArt 
 AI PC starter app for doing AI 4K image creation. VisionArt support Gen AI models upscaling and placing generated images.
+</br><p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## VisionArt Download Link
-- 
-</br>
+
+</br><p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Version v2.0.3014 Feature 
 - Support AI Playground:Acer VisionArt workflow.
