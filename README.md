@@ -35,7 +35,7 @@ User can use AI Playground create image and use Acer VisionArt do outpaint and s
 
 # AI Playground 
 AI PC starter app for doing AI image creation, video creaion.
-![Custom Node-VisionArt](./image/AIPG_VisionArt.png)
+![Custom AIPG](./image/AIPG_VisionArt.PNG)
 </br><p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Download the installer 
