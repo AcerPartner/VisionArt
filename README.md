@@ -15,9 +15,7 @@ User can use AI Playground create image and use Acer VisionArt do outpaint and s
       <ul>
         <li><a href="#download-the-installer">Downdload the installer</a></li>
         <li><a href="#version-v260b-feature">Version v2.6.0b Feature</a></li>
-        <li><a href="#project-development">Project Development</a></li>
         <li><a href="#ai-playground-image-resolution">AI Playground Image Resolution</a></li>
-        <li><a href="#ai-playground-video-resolution">AI Playground Video Resolution</a></li>
       </ul>
     </li>
     <li>
@@ -31,11 +29,7 @@ User can use AI Playground create image and use Acer VisionArt do outpaint and s
       <a href="#comfyui">ComfyUI</a>
       <ul>
         <li><a href="#server">Server</a></li>
-        <li><a href="#environment">Environment</a></li>
       </ul>
-    </li>
-    <li>
-      <a href="#how-to-execute-visionart-ai-playground">How to Execute VisionArt-AI Playground</a>
     </li>
   </ol>
 </details>
@@ -56,7 +50,6 @@ AI PC starter app for doing AI image creation, video creaion.
 ## Version v2.6.0b Feature 
 - Acer VisionArt workflow added for upscaling and placing generated images on your desktop (Acer AI PC required).
 </br><p align="right">(<a href="#readme-top">back to top</a>)</p>
-## Project Development 
 
 ## AI Playground Image Resolution 
 
@@ -73,26 +66,6 @@ Setting::
 | 1.0 | 1536x640 | 1344x768 | 1280x832 | 1216x896 | 1024x1024 | 896x1152 | 832x1280 | 768x1344 | 640x1536 |
 
 </br><p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## AI Playground Video Resolution 
-
-Setting::
-- Mode:: Workflow
-- workflow:: Video:Img2Vid_0.9.6
-- Image Size
-
-| Mega pixels | 12/5 | 16/9 | 3/2 | 4/3 | 1/1 | 3/4 | 2/3 | 9/6 | 5/12 |
-| ------------ | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | 
-| 0.1 | 640x256 | 448x256 | 384x256 | 320x256 | 320x320 | 256x320 | 256x384 | 256x448 | 256x576 |
-| 0.25 | 768x320 | 704x384 | 576x384 | 576x448 | 512x512 | 448x576 | 448x640 | 384x704 | 320x832 |
-| 0.35 | 896x384 | 768x448 | 768x512 | 704x512 | 576x576 | 512x704 | 512x768 | 448x832 | 384x960 |
-| 0.5 | 1088x448 | 896x512 | 896x576 | 832x640 | 704x704 | 640x832 | 576x832 | 512x960 | 448x1088 |
-
-- Total Frames:
-- Frame Rate: 
-
-</br>
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 # VisionArt 
 AI PC starter app for doing AI 4K image creation. VisionArt support Gen AI models upscaling and placing generated images.
