@@ -1,7 +1,8 @@
 <a id="readme-top"></a>
 # VisionArt-AI Playground
 AI PC starter app for doing AI 4K image createion on laptop. </br>
-User can use AI Playground create image and use Acer VisionArt do outpaint and set to wallpaper.
+User can use AI Playground create image and use Acer VisionArt do upscaling and place generated image.
+![Acer VisionArt](./image/VisionArt_Image.PNG)
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -23,12 +24,6 @@ User can use AI Playground create image and use Acer VisionArt do outpaint and s
         <li><a href="#version-v203014-feature ">Version v2.0.3014 Feature </a></li>        
       </ul>
     </li>
-    <li>
-      <a href="#comfyui">ComfyUI</a>
-      <ul>
-        <li><a href="#server">Server</a></li>
-      </ul>
-    </li>
   </ol>
 </details>
 
@@ -39,7 +34,7 @@ AI PC starter app for doing AI image creation, video creaion.
 </br><p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Download the installer 
-**AI Playground 2.6.0 Beta (all SKUs)** - [Release Notes](https://github.com/intel/AI-Playground/releases/tag/v2.6.0-beta) | [Download](https://github.com/intel/AI-Playground/releases/download/v2.6.0-beta/AI.Playground-2.6.0-beta.exe)
+**AI Playground 2.6.0 Beta (all SKUs)** - [Release Notes](https://github.com/intel/AI-Playground/releases/tag/v2.6.0-beta) | [Download](https://github.com/intel/AI-Playground/releases/download/v2.6.0-beta/AI.Playground-2.6.0-beta.exe) | [Github](https://github.com/intel/AI-Playground)
 </br><p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Version v2.6.0b Feature 
@@ -69,20 +64,15 @@ Setting::
 
 # VisionArt 
 AI PC starter app for doing AI 4K image creation. VisionArt support Gen AI models upscaling and placing generated images.
-</br><p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## VisionArt Download Link
-
+![Acer VisionArt](./image/VisionArt_UI.PNG)
 </br><p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Version v2.0.3014 Feature 
 - Support AI Playground:Acer VisionArt workflow.
 </br><p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-# ComfyUI
-## Server
-IP: localhost:49000 </br>
-</br><p align="right">(<a href="#readme-top">back to top</a>)</p>
+## Manual Update Script
+
 
 
  
