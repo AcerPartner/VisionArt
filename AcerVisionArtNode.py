@@ -76,9 +76,20 @@ class AcerSaveImage:
         logging.info("subfolder: "+ subfolder)
         logging.info("filename_prefix: "+ filename_prefix)
         file = f"{filename_prefix}_{counter:05}_.png"
-        images.save(os.path.join(full_output_folder, file))
-        results = list()
 
+        metaData = None
+        metaData = PngInfo()
+        if prompt is not None:
+            metaData.add_text("prompt", json.dumps(prompt))
+        if extra_pnginfo is not None:
+            for x in extra_pnginfo:
+                    metaData.add_text(x, json.dumps(extra_pnginfo[x]))
+        
+        if metaData is not None:
+            images.save(os.path.join(full_output_folder, file), pnginfo=metaData, compress_level=self.compress_level)
+        else:
+            images.save(os.path.join(full_output_folder, file))
+        results = list()
         results.append({
             "filename": file,
             "subfolder": subfolder,
@@ -213,12 +224,12 @@ class AcerVisionArtNode:
         logging.info("Receive 4K image. send version finish script.")
         commandSocketFlag['run'] = False
 
-        aico_rversion = { 
+        aico_version = { 
             "Function": "AICO_VERSION",
             "Feature": 0,
             "TimeStamp": datetime.now().timestamp()
         }
-        message = magicWord.encode('utf-8') + byte_cmdID + json.dumps(aico_rversion).encode('utf-8')
+        message = magicWord.encode('utf-8') + byte_cmdID + json.dumps(aico_version).encode('utf-8')
         try:
             commandSocket.sendall(message)
             logging.info("command socket AICO_VERSION success.")
