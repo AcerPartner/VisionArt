@@ -2,7 +2,7 @@
 # VisionArt-AI Playground
 AI PC starter app for doing AI 4K image createion on laptop. </br>
 User can use AI Playground create image and use Acer VisionArt do upscaling and place generated image.
-![Acer VisionArt](./image/VisionArt_Image.PNG)
+![Acer VisionArt](./image/VisionArtfavicon.ico)
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -14,7 +14,6 @@ User can use AI Playground create image and use Acer VisionArt do upscaling and 
         <li><a href="#download-the-installer">Downdload the installer</a></li>
         <li><a href="#version-v260b-feature">Version v2.6.0b Feature</a></li>
         <li><a href="#aipg-visionart-workflow">AIPG-VisionArt Workflow </a></li>
-        <li><a href="#ai-playground-image-resolution">AI Playground Image Resolution</a></li>
       </ul>
     </li>
     <li>
@@ -46,33 +45,20 @@ AI PC starter app for doing AI image creation, video creaion.
 VisionArt be a custom node in the workflow.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## AI Playground Image Resolution 
-
-Setting::
-- Mode:: Default
-- Image Resolution:: HD   
-- Image Size
-
-| Mega pixels | 12/5 | 16/9 | 3/2 | 4/3 | 1/1 | 3/4 | 2/3 | 9/6 | 5/12 |
-| ------------ | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | 
-| 0.25 | 768x320 | 704x384 | 576x384 | 576x448 | 512x512 | 448x576 | 448x640 | 384x704 | 320x832 |
-| 0.5 | 1088x448 | 896x512 | 896x576 | 832x640 | 704x704 | 640x832 | 576x832 | 512x960 | 448x1088 |
-| 0.8 | 1408x576 | 1152x640 | 1088x704 | 1024x768 | 896x896 | 768x1024 | 704x1088 | 704x1216 | 576x1408 |
-| 1.0 | 1536x640 | 1344x768 | 1280x832 | 1216x896 | 1024x1024 | 896x1152 | 832x1280 | 768x1344 | 640x1536 |
-
-</br><p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 # VisionArt 
-AI PC starter app for doing AI 4K image creation. VisionArt support Gen AI models upscaling and placing generated images.
-![Acer VisionArt](./image/VisionArt_UI.PNG)
-</br><p align="right">(<a href="#readme-top">back to top</a>)</p>
+AI PC starter app for doing AI 4K image creation. VisionArt support Gen AI models upscaling and placing generated images. </br>
+![Acer VisionArt](./image/VisionArt_UI.PNG) </br>
+[![Acer VisionArt Video](https://img.youtube.com/vi/BNPim_fMPuk/0.jpg)](https://www.youtube.com/watch?v=BNPim_fMPuk?t=55)
+</br>
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Version v2.0.3014 Feature 
 - Support AI Playground:Acer VisionArt workflow.
 </br><p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Manual Update Script
-
-
-
- 
+1. Download [AcerPartner VisionArt Last Tag](https://github.com/AcerPartner/VisionArt.git)
+2. Open document "C:\Users\Your PC ID\AppData\Local\Programs\AI Playground\resources\ComfyUI\custom_nodes\VisionArt"
+3. Replace "VisionArt"
+4. Relaunch AI Playground. 
