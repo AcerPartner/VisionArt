@@ -1,7 +1,11 @@
 <a id="readme-top"></a>
 # VisionArt-AI Playground
+[![GitHub release](https://img.shields.io/github/release/AcerPartner/VisionArt)](https://github.com/AcerPartner/VisionArt/releases/) 
+[![Github all releases](https://img.shields.io/github/downloads/AcerPartner/VisionArt/total)](https://GitHub.com/AcerPartner/VisionArt/releases/) 
+[![GitHub stars](https://img.shields.io/github/stars/AcerPartner/VisionArt.svg?style=social)](https://GitHub.com/AcerPartner/VisionArt/stargazers/) 
+</br>
 AI PC starter app for doing AI 4K image createion on laptop. </br>
-User can use AI Playground create image and use Acer VisionArt do upscaling and place generated image.
+User can use AI Playground create image and use Acer VisionArt do upscaling and place generated image. </br>
 ![Acer VisionArt](./image/VisionArtfavicon.ico)
 
 <!-- TABLE OF CONTENTS -->
@@ -29,7 +33,9 @@ User can use AI Playground create image and use Acer VisionArt do upscaling and 
 
 
 # AI Playground 
-AI PC starter app for doing AI image creation, video creaion.
+This example is based on the xpu implementation of Intel® Arc™ GPU.
+
+Welcome to AI Playground open source project and AI PC starter app for doing AI image creation, image stylizing, and chatbot on a PC powered by an Intel® Arc™ GPU. AI Playground leverages libraries from GitHub and Huggingface which may not be available in all countries world-wide. 
 ![Custom AIPG](./image/AIPG_VisionArt.PNG)
 </br><p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -42,19 +48,21 @@ AI PC starter app for doing AI image creation, video creaion.
 </br><p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 # AIPG-VisionArt Workflow 
+VisionArt be a custom node in the workflow. </br>
 ![Custom Node-VisionArt](./image/VisionArt_Workflow.png)
-VisionArt be a custom node in the workflow.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 # VisionArt 
-AI PC starter app for doing AI 4K image creation. VisionArt support Gen AI models upscaling and placing generated images. </br>
+Welcome to Acer VisionArt a AI PC starter app for doing AI 4K image creation, image upscaling and placing generated images on PC powered by an Intel® Arc™ GPU or Intel® AI Boost(npu). Acer VisionArt available on Acer AI PC. </br>
 ![Acer VisionArt](./image/VisionArt_UI.PNG) </br>
+
+## :loudspeaker: YouTube Reviews and Guides
 [![Acer VisionArt Video](https://img.youtube.com/vi/BNPim_fMPuk/0.jpg)](https://www.youtube.com/watch?v=BNPim_fMPuk?t=55)
 </br>
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Version v2.0.3014 Feature 
+## :zap: Features
 - Support AI Playground:Acer VisionArt workflow.
 </br><p align="right">(<a href="#readme-top">back to top</a>)</p>
 
