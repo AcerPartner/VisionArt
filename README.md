@@ -20,7 +20,8 @@ User can use AI Playground create image and use Acer VisionArt do upscaling and 
       <a href="#visionart">VisionArt</a>
       <ul>
         <li><a href="#visionart-download-link">VisionArt Download Link</a></li>
-        <li><a href="#version-v203014-feature ">Version v2.0.3014 Feature </a></li>        
+        <li><a href="#version-v203014-feature ">Version v2.0.3014 Feature </a></li>  
+        <li><a href="#manual-update-script ">Manual Update Script </a></li>        
       </ul>
     </li>
   </ol>
@@ -62,3 +63,4 @@ AI PC starter app for doing AI 4K image creation. VisionArt support Gen AI model
 2. Open document "C:\Users\Your PC ID\AppData\Local\Programs\AI Playground\resources\ComfyUI\custom_nodes\VisionArt"
 3. Replace "VisionArt"
 4. Relaunch AI Playground. 
+</br><p align="right">(<a href="#readme-top">back to top</a>)</p>
