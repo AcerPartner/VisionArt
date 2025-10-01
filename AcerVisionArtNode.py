@@ -310,7 +310,7 @@ class AcerVisionArtNode:
                 "outpaint_image_position": 0,
                 "outpaint_execute": 0,
                 "outpaint_format": 0, 
-                "outpaint_animation": animation_mode,                  #0: set wallpaper, 1: animation wallpaper, 2: full screen wallpaper
+                "outpaint_animation": 0,                  #0: set wallpaper, 1: animation wallpaper, 2: full screen wallpaper
                 "outpaint_animation_speed": 20,
                 "outpaint_inference_step": 20, 
                 "seed": 0,
